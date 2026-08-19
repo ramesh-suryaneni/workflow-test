@@ -1,0 +1,36 @@
+To enable a push trigger on multiple branches in GitHub Actions, you can configure the on.push.branches section in your workflow YAML file.
+Here’s a complete example:
+Yamlname: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - development
+      - release/*
+      - hotfix/*
+  # Optional: Also trigger on pull requests to these branches
+  pull_request:
+    branches:
+      - main
+      - development
+      - release/*
+      - hotfix/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
